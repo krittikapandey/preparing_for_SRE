@@ -1,0 +1,43 @@
+BIOS --->MBR---->GRUB--->Kernel--->Init--->RunLevel
+
+BIOS(Basic input/output system) checks connected physical system and search for boot loader in CD-ROM/Hard drive or floppy. After finding boot loader , it loaded 
+into memory and transfer control to boot loader.
+
+MBR(master boot record) It is located in the 1st sector of the bootable disk. Typically /dev/hda, or /dev/sda
+MBR is less than 512 bytes in size. This has three components 1) primary boot loader info in 1st 446 bytes 2) partition table info in next 64 bytes 3) 
+mbr validation check in last 2 bytes. MBR loads and execute GRUB
+
+GRUB , grand unified boot loader. Grub loads kernel image and if you have multiple kernel image, user can select which image it wants to load. GRUB also contains
+information about file system in /boot/grub/grub.cfg. So in simple terms GRUB just loads and executes Kernel and initrd images.
+
+Kernel mounts the root file system as specified in the “root=” in grub.cfg
+Kernel executes the /sbin/init program
+
+Init looks at the /etc/inittab file to decide the Linux run level.
+Following are the available run levels
+0 – halt
+1 – Single user mode
+2 – Multiuser, without NFS
+3 – Full multiuser mode
+4 – unused
+5 – X11
+6 – reboot
+Init identifies the default initlevel from /etc/inittab and uses that to load all appropriate program.
+
+When the Linux system is booting up, you might see various services getting started. For example, it might say “starting sendmail …. OK”. Those are the runlevel programs, executed from the run level directory as defined by your run level.
+Depending on your default init level setting, the system will execute the programs from one of the following directories.
+Run level 0 – /etc/rc.d/rc0.d/
+Run level 1 – /etc/rc.d/rc1.d/
+Run level 2 – /etc/rc.d/rc2.d/
+Run level 3 – /etc/rc.d/rc3.d/
+Run level 4 – /etc/rc.d/rc4.d/
+Run level 5 – /etc/rc.d/rc5.d/
+Run level 6 – /etc/rc.d/rc6.d/
+Under the /etc/rc.d/rc*.d/ directories, you would see programs that start with S and K.
+Programs starts with S are used during startup. S for startup.
+Programs starts with K are used during shutdown. K for kill.
+There are numbers right next to S and K in the program names. Those are the sequence number in which the programs should be started or killed.
+
+
+
+Reference link: https://www.thegeekstuff.com/2011/02/linux-boot-process/
