@@ -1,5 +1,5 @@
 # preparing_for_SRE
 Tutorial for SRE/DevOps interview Preparation
 
-Linux: \
+Linux: <br>
 Booting Process
